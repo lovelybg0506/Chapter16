@@ -19,7 +19,7 @@ class Account {
 		if (balance < amount)
 			return 0;
 		balance -= amount;
-		return amount;
+		return balance;
 	}
 }
 
@@ -37,11 +37,11 @@ class TransferThread extends Thread {
 	}
 
 	public void run() {
-		for (int cnt = 0; cnt < 12; cnt++) {
+		for (int cnt = 0; cnt < 3; cnt++) {
 			synchronized(sharedArea) { // 동기화
 				sharedArea.account1.withdraw(1000000);
 				System.out.println("이몽룡 계좌:100만원 인출");
-				
+
 				sharedArea.account2.deposit(1000000);
 				System.out.println("성춘향 계좌:100만원 입금");
 			}
@@ -85,9 +85,27 @@ public class MultithreadExample4_05 {
 
 		TransferThread tft = new TransferThread(area);
 		PrintThread ptt = new PrintThread(area);
-
 		tft.start();
-		ptt.start();
+
+		System.out.println("1번계좌의 주인: "+area.account1.ownerName);
+		System.out.println("1번계좌 번호: "+area.account1.accountNo);
+		System.out.println("1번계좌의 잔여액: "+area.account1.balance);
+		
+		System.out.println("======================================");
+		
+		System.out.println("2번계좌의 주인: "+area.account2.ownerName);
+		System.out.println("2번계좌 번호: "+area.account2.accountNo);
+		System.out.println("2번계좌의 잔여액: "+area.account2.balance);
+		
+		System.out.println("======================================");
+		
+		
+//		ptt.start();
+		
+//		area.account1.withdraw(1000000);
+		
+		System.out.println("1번계좌의 잔여액: "+area.account1.balance);
+		System.out.println("2번계좌의 잔여액: "+area.account2.balance);
 	}
 
 }
